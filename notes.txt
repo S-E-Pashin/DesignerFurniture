@@ -4,5 +4,5 @@
 Добавил gulpfile.js, package.json, .gitignore, .editorconfig, .editorconfig, .stylelintrc
 package.json описывает все требуемые действия которые будет выполнять node.
 4. Перехожу в ветки, создаю ветку для разметки branch1-markup
-
+5. Футер, разделил навигацию для ссылок и для пользователя.
 
