@@ -9,8 +9,8 @@ var server = require("browser-sync").create();
 var csso = require("gulp-csso");
 var rename = require("gulp-rename");
 var imagemin = require("gulp-imagemin");
-var webp = require("gulp-webp");
-var svgstore = require("gulp-svgstore");
+// var webp = require("gulp-webp");
+// var svgstore = require("gulp-svgstore");
 var posthtml = require("gulp-posthtml");
 var include = require("posthtml-include");
 var del = require("del");
@@ -23,8 +23,9 @@ gulp.task("css", function () {
     .pipe(postcss([
       autoprefixer()
     ]))
-    .pipe(csso())
-    .pipe(rename("style.min.css"))
+    // .pipe(csso())/* Минификатор */
+    // .pipe(rename("style.min.css"))
+    .pipe(rename("style.css"))
     .pipe(sourcemap.write("."))
     .pipe(gulp.dest("build/css"))
     .pipe(server.stream());
@@ -35,7 +36,7 @@ gulp.task("server", function () {
     server: "build/"
   });
   gulp.watch("source/less/**/*.less", gulp.series("css"));
-  gulp.watch("source/img/icon-*.svg", gulp.series("sprite", "html", "refresh"));
+  gulp.watch("source/img/icon-*.svg", gulp.series(/* "sprite",  */"html", "refresh"));
   gulp.watch("source/*.html", gulp.series("html", "refresh"));
 });
 
@@ -59,22 +60,22 @@ gulp.task("images", function () {
     .pipe(gulp.dest("source/img"))
 });
 
-gulp.task("webp", function () {
-  return gulp.src("source/img/**/*.{png,jpg}")
-    .pipe(webp({
-      quality: 90
-    }))
-    .pipe(gulp.dest("build/img"));
-});
+// gulp.task("webp", function () {
+//   return gulp.src("source/img/**/*.{png,jpg}")
+//     .pipe(webp({
+//       quality: 90
+//     }))
+//     .pipe(gulp.dest("build/img"));
+// });
 
-gulp.task("sprite", function () {
-  return gulp.src("source/img/{logo-*.svg,icon-*.svg}")
-    .pipe(svgstore({
-      inlineSvg: true
-    }))
-    .pipe(rename("sprite.svg"))
-    .pipe(gulp.dest("build/img"));
-});
+// gulp.task("sprite", function () {
+//   return gulp.src("source/img/{logo-*.svg,icon-*.svg}")
+//     .pipe(svgstore({
+//       inlineSvg: true
+//     }))
+//     .pipe(rename("sprite.svg"))
+//     .pipe(gulp.dest("build/img"));
+// });
 
 gulp.task("html", function () {
   return gulp.src("source/*.html")
@@ -103,9 +104,9 @@ gulp.task("clean", function () {
 gulp.task("build", gulp.series(
   "clean",
   "copy",
-  "webp",
+  // "webp",
   "css",
-  "sprite",
+  // "sprite",
   "html"
 ));
 
